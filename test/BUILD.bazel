@@ -1,0 +1,32 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+load("@rules_ocaml//build:rules.bzl", "ocaml_module", "ppx_executable")
+
+###########
+build_test(
+    name       = "ppx_assert_test",
+    targets  = [":Ppx_assert_test"]
+)
+
+#############
+ocaml_module(
+    name          = "Ppx_assert_test",
+    struct        = "ppx_assert_test.ml",
+    deps          = ["@sexplib//lib/sexplib", "@ocaml//str"],
+    ppx           = ":ppx.exe",
+    ppx_args      = ["-inline-test-lib", "ppx_assert_test_lib"]
+)
+
+###############
+ppx_executable(
+    name    = "ppx.exe",
+    main    = "@ppxlib//lib/runner",
+    prologue = [
+        "@ppx_compare//lib/ppx_compare",
+        "@ppx_sexp_conv//lib/ppx_sexp_conv",
+        "@ppx_here//lib/ppx_here",
+        "//src:ppx_assert",
+        "@ppx_inline_test//lib/ppx_inline_test"
+    ],
+)

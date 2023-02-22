@@ -1,5 +1,9 @@
-ppx\_assert
+ppx\_assert (Bazel edition)
 ===========
+
+WARNING: the depends list in `ppx_assert.opam` fails to list two packages
+required for `//test:ppx_assert_test`: `ppx_inline_test` and
+`sexplib`.
 
 Extension nodes to compare value and raise useful errors if they differ.
 

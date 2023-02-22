@@ -1,0 +1,53 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_library",
+     "ocaml_module",
+     "ocaml_signature",
+     "ppx_executable",
+     "ppx_module",
+)
+
+PPX_ARGS = []
+DEPS_1 = [
+    "@ppxlib//lib/ppxlib",
+    "@ppx_sexp_conv//lib/expander",
+    "@ppx_here//lib/expander",
+    "@ppx_compare//lib/expander"
+]
+
+############################# Aggregates #############################
+ocaml_library(
+    name       = "ppx_assert",
+    manifest = [
+        ":Ppx_assert"
+    ],
+)
+
+######################## Modules & Signatures ########################
+ocaml_signature(
+    name          = "Ppx_assert_cmi",
+    src           = "ppx_assert.mli",
+    deps          = DEPS_1,
+    ppx           = ":ppx.exe",
+)
+
+ppx_module(
+    name          = "Ppx_assert",
+    struct        = "ppx_assert.ml",
+    sig           = ":Ppx_assert_cmi",
+    deps          = DEPS_1,
+    ppx           = ":ppx.exe",
+    ppx_args      = PPX_ARGS + [],
+    ppx_codeps    = ["//runtime-lib:ppx_assert_lib"],
+)
+
+
+###############
+ppx_executable(
+    name    = "ppx.exe",
+    main    = "@ppxlib//lib/runner",
+    prologue = [
+        "@ppxlib//lib/metaquot"
+    ],
+)

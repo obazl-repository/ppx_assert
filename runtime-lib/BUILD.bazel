@@ -1,0 +1,50 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_ns_archive",
+     "ocaml_module",
+     "ocaml_signature",
+     "ppx_executable",
+)
+
+PPX_ARGS = []
+DEPS_1 = [
+    "@base//lib/base"
+]
+
+############################# Aggregates #############################
+ocaml_ns_archive(
+    name       = "ppx_assert_lib",
+    ns_name    = "ppx_assert_lib",
+    manifest = [
+        ":Runtime"
+    ],
+)
+
+######################## Modules & Signatures ########################
+ocaml_signature(
+    name          = "Runtime_cmi",
+    src           = "runtime.mli",
+    deps          = DEPS_1,
+    ppx           = ":ppx.exe",
+)
+
+ocaml_module(
+    name          = "Runtime",
+    struct        = "runtime.ml",
+    sig           = ":Runtime_cmi",
+    deps          = DEPS_1,
+    ppx           = ":ppx.exe",
+    ppx_args      = PPX_ARGS + [],
+)
+
+
+###############
+ppx_executable(
+    name    = "ppx.exe",
+    main    = "@ppxlib//lib/runner",
+    prologue = [
+        "@ppx_sexp_conv//lib/ppx_sexp_conv",
+        "@ppx_cold//lib/ppx_cold"
+    ],
+)
