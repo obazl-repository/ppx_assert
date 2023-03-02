@@ -4,6 +4,11 @@
 version = 0.1.0
 grammar=1.0.0-BETA  ;; version number of config grammar, not obazl program
 
+; dump = exports
+; dump = mibl
+
+;pkg = bench
+
 [srcs]
 
 ;; 'include' is exclusive (?)
@@ -11,12 +16,9 @@ grammar=1.0.0-BETA  ;; version number of config grammar, not obazl program
 
 ;;;; excludes override includes
 ;; excluded by default:
-;;  hidden files and dirs (.git/, .github/, .merlin, etc.)
-;;  _build (dune output dir)
-;;  bazel-bin, bazel-out etc. - bazel symlinks
-;;  _opam (local opam repo)
+;; _build (dune output dir)
+;; bazel-bin, bazel-out etc. - bazel symlinks
+;; hidden files and dirs (.git/, .github/, .merlin, etc.)
 
-exclude X_opam
-
-;exclude = docs
+;exclude = bench
 ;exclude = test/foo  ;; e.g. if test/foo contains broken stuff

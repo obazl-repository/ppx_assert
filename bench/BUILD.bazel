@@ -3,10 +3,12 @@ package(default_visibility = ["//visibility:public"])
 load("@rules_ocaml//build:rules.bzl",
      "ocaml_ns_archive",
      "ocaml_module",
+     "ocaml_test",
      "ppx_executable",
 )
 
-PPX_ARGS = []
+LIBNAME = "ppx_assert_libxxx"
+PPX_ARGS = ["-inline-test-lib", LIBNAME]
 DEPS_1 = [
     "@ppx_compare//lib/runtime-lib"
 ]
@@ -16,17 +18,41 @@ ocaml_ns_archive(
     name       = "ppx_assert_bench_lib",
     ns_name    = "ppx_assert_bench_lib",
     manifest = [
-        ":Ppx_assert_bench"
+        ":Ppx_assert_bench",
+        ":Runner"
     ],
+)
+
+ocaml_test(
+    name = "ppx_assert_bench_test",
+    prologue = [
+        ":Ppx_assert_bench",
+        "@ppx_inline_test//lib/runner/lib",
+    ],
+    main = "@ppx_inline_test//lib/runner", # ":Runner",
+    args = ["inline-test-runner", LIBNAME],
+    timeout = "short"
 )
 
 ######################## Modules & Signatures ########################
 ocaml_module(
     name          = "Ppx_assert_bench",
     struct        = "ppx_assert_bench.ml",
-    deps          = DEPS_1,
+    deps          = DEPS_1 + [
+        "@ppx_bench//lib/runtime-lib",
+        "@ppx_inline_test//lib/libname",
+        "@ppx_inline_test//lib/runtime-lib"
+    ],
     ppx           = ":ppx.exe",
-    ppx_args      = PPX_ARGS + []
+    ppx_args      = PPX_ARGS + ["-loc-filename", "ppx_assert_bench.ml"],
+)
+
+ocaml_module(
+    name          = "Runner",
+    struct        = "runner.ml",
+    deps   = [
+        "@ppx_inline_test//lib/runtime-lib",
+    ],
 )
 
 
@@ -38,4 +64,5 @@ ppx_executable(
         "//src:ppx_assert",
         "@ppx_bench//lib/ppx_bench"
     ],
+    ppx_codeps = ["@ppx_bench//lib/runtime-lib"]
 )

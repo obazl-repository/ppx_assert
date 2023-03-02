@@ -25,6 +25,16 @@ ocaml_library(
 )
 
 ######################## Modules & Signatures ########################
+ppx_module(
+    name          = "Ppx_assert",
+    struct        = "ppx_assert.ml",
+    sig           = ":Ppx_assert_cmi",
+    deps          = DEPS_1,
+    ppx           = ":ppx.exe",
+    ppx_args      = PPX_ARGS + ["-loc-filename", "ppx_assert.ml"],
+    ppx_codeps    = ["//runtime-lib:ppx_assert_lib"]
+)
+
 ocaml_signature(
     name          = "Ppx_assert_cmi",
     src           = "ppx_assert.mli",
@@ -32,15 +42,6 @@ ocaml_signature(
     ppx           = ":ppx.exe",
 )
 
-ppx_module(
-    name          = "Ppx_assert",
-    struct        = "ppx_assert.ml",
-    sig           = ":Ppx_assert_cmi",
-    deps          = DEPS_1,
-    ppx           = ":ppx.exe",
-    ppx_args      = PPX_ARGS + [],
-    ppx_codeps    = ["//runtime-lib:ppx_assert_lib"],
-)
 
 
 ###############
