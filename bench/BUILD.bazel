@@ -9,19 +9,7 @@ load("@rules_ocaml//build:rules.bzl",
 
 LIBNAME = "ppx_assert_libxxx"
 PPX_ARGS = ["-inline-test-lib", LIBNAME]
-DEPS_1 = [
-    "@ppx_compare//lib/runtime-lib"
-]
-
-############################# Aggregates #############################
-ocaml_ns_archive(
-    name       = "ppx_assert_bench_lib",
-    ns_name    = "ppx_assert_bench_lib",
-    manifest = [
-        ":Ppx_assert_bench",
-        ":Runner"
-    ],
-)
+DEPS_1 = ["@ppx_compare//lib/runtime-lib"]
 
 ocaml_test(
     name = "ppx_assert_bench_test",
