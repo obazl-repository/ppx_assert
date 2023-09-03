@@ -1,8 +1,11 @@
---symlink_prefix=.bazel/
+common --symlink_prefix=.bazel/
+common --experimental_cc_shared_library
+common --enable_bzlmod
 
-common --color=yes
-common:show --subcommands=pretty_print
-common:show --verbose_failures
+try-import .config/coswitch_registry.bazelrc
+try-import .config/registries.bazelrc
+common --registry=https://raw.githubusercontent.com/obazl/registry/main/
+common --registry=https://bcr.bazel.build
 
 # toolchain selection: vm (bytecode), sys (nativecode) E.g. to compile
 # with ocamlc.opt, pass --config=ocamlc.opt (sys to vm). this means:

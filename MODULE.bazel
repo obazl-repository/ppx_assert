@@ -1,0 +1,43 @@
+module(
+    name = "ppx_assert",
+    version = "0.1.0",
+    compatibility_level = 0,
+)
+
+bazel_dep(name = "platforms", version = "0.0.7")
+bazel_dep(name = "bazel_skylib", version = "1.4.2")
+
+bazel_dep(name = "rules_ocaml", version = "1.0.0")
+# opam = use_extension("@rules_ocaml//extensions:opam.bzl",
+#                      "opam")
+# opam.install(
+#     # root = "foo",
+#     opam_version = "2.0",
+#     switch = "4.14.0",
+#     compiler_version = "4.14.0",
+#     packages = {
+#         "base": "0.16.3",
+#         "ppx_cold": "0.16.0",
+#         "ppx_compare": "0.16.0",
+#         "ppx_here": "0.16.0",
+#         "ppx_sexp_conv": "0.16.0",
+#         "ppxlib": "0.30.0"
+#     }
+# )
+# use_repo(opam, "opam")
+
+bazel_dep(name = "obazl", version = "1.0.0")
+
+bazel_dep(name = "cc_config", version = "1.0.0",
+          dev_dependency = True)
+
+bazel_dep(name = "ocaml", version = "0.0.0")
+register_toolchains("@ocaml//toolchain/selectors/local:all")
+register_toolchains("@ocaml//toolchain/profiles:all")
+
+bazel_dep(name = "base", version = "0.16.3")
+bazel_dep(name = "ppx_cold", version = "0.16.0")
+bazel_dep(name = "ppx_compare", version = "0.16.0")
+bazel_dep(name = "ppx_here", version = "0.16.0")
+bazel_dep(name = "ppx_sexp_conv", version = "0.16.0")
+bazel_dep(name = "ppxlib", version = "0.30.0")

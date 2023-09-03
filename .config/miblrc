@@ -4,12 +4,17 @@
 version = 0.1.0
 grammar=1.0.0-BETA  ;; version number of config grammar, not obazl program
 
-; dump = exports
-; dump = mibl
+;; emit = ...  ; none | exports | parsetree | mibl | starlark (default)
+;; dump = ...  ; parsetree | mibl | ppx (default: null)
+;; pkg = ...
 
-;pkg = bench
+debug = traversal
 
 [srcs]
+exclude = bzl
+exclude = x_opam
+
+;; exclude = test
 
 ;; 'include' is exclusive (?)
 ;; include = test
@@ -20,5 +25,5 @@ grammar=1.0.0-BETA  ;; version number of config grammar, not obazl program
 ;; bazel-bin, bazel-out etc. - bazel symlinks
 ;; hidden files and dirs (.git/, .github/, .merlin, etc.)
 
-;exclude = bench
+;exclude = docs
 ;exclude = test/foo  ;; e.g. if test/foo contains broken stuff

@@ -1,11 +1,10 @@
-package(default_visibility = ["//visibility:public"])
+## GENERATED FILE ##
 
 load("@rules_ocaml//build:rules.bzl",
-     "ocaml_ns_archive",
      "ocaml_module",
+     "ocaml_ns_archive",
      "ocaml_signature",
-     "ppx_executable",
-)
+     "ppx_executable")
 
 PPX_ARGS = []
 DEPS_1 = [
@@ -15,6 +14,7 @@ DEPS_1 = [
 ############################# Aggregates #############################
 ocaml_ns_archive(
     name       = "ppx_assert_lib",
+    visibility = ["//visibility:public"],
     ns_name    = "ppx_assert_lib",
     manifest = [
         ":Runtime"
@@ -28,7 +28,6 @@ ocaml_module(
     sig           = ":Runtime_cmi",
     deps          = DEPS_1,
     ppx           = ":ppx.exe",
-    ppx_args      = PPX_ARGS + ["-loc-filename", "runtime.ml"],
 )
 
 ocaml_signature(

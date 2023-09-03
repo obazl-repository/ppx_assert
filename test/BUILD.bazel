@@ -1,15 +1,12 @@
-package(default_visibility = ["//visibility:public"])
+## GENERATED FILE ##
 
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 
 load("@rules_ocaml//build:rules.bzl",
-     "ocaml_ns_archive",
      "ocaml_module",
-     "ocaml_test",
-     "ppx_executable",
-)
+     "ocaml_ns_archive",
+     "ppx_executable")
 
-LIBNAME = "ppx-assert-lib"
 PPX_ARGS = []
 DEPS_1 = [
     "@sexplib//lib/sexplib",
@@ -17,22 +14,13 @@ DEPS_1 = [
 ]
 
 ############################# Aggregates #############################
+# fail("FIXME: verify build_test target")
 build_test(
     name       = "ppx_assert_test_lib_test",
+    visibility = ["//visibility:public"],
     targets  = [
         ":Ppx_assert_test"
     ],
-)
-
-ocaml_test(
-    name = "ppx_assert_test",
-    prologue = [
-        ":Ppx_assert_test",
-        "@ppx_inline_test//lib/runner/lib",
-    ],
-    main = "@ppx_inline_test//lib/runner", # ":Runner",
-    args = ["inline-test-runner", LIBNAME],
-    timeout = "short"
 )
 
 ######################## Modules & Signatures ########################
@@ -41,10 +29,9 @@ ocaml_module(
     struct        = "ppx_assert_test.ml",
     deps          = DEPS_1,
     ppx           = ":ppx.exe",
-    ppx_args      = PPX_ARGS + [
-        "-loc-filename", "ppx_assert_test.ml",
-        "-inline-test-lib", LIBNAME]
+    ppx_args      = PPX_ARGS + ["-inline-test-lib", "ppx_assert_test_lib"],
 )
+
 
 ###############
 ppx_executable(

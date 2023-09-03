@@ -1,12 +1,11 @@
-package(default_visibility = ["//visibility:public"])
+## GENERATED FILE ##
 
 load("@rules_ocaml//build:rules.bzl",
      "ocaml_library",
      "ocaml_module",
      "ocaml_signature",
      "ppx_executable",
-     "ppx_module",
-)
+     "ppx_module")
 
 PPX_ARGS = []
 DEPS_1 = [
@@ -19,6 +18,7 @@ DEPS_1 = [
 ############################# Aggregates #############################
 ocaml_library(
     name       = "ppx_assert",
+    visibility = ["//visibility:public"],
     manifest = [
         ":Ppx_assert"
     ],
@@ -31,7 +31,6 @@ ppx_module(
     sig           = ":Ppx_assert_cmi",
     deps          = DEPS_1,
     ppx           = ":ppx.exe",
-    ppx_args      = PPX_ARGS + ["-loc-filename", "ppx_assert.ml"],
     ppx_codeps    = ["//runtime-lib:ppx_assert_lib"]
 )
 
@@ -42,6 +41,19 @@ ocaml_signature(
     ppx           = ":ppx.exe",
 )
 
+
+#############################
+####  Signature Targets  ####
+
+ocaml_signature(
+    name          = "Foo_cmi",
+    src           = "foo.mli",
+)
+
+ocaml_signature(
+    name          = "Foobar_cmi",
+    src           = "foobar.mli",
+)
 
 
 ###############
